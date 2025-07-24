@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { Schema } from "mongoose";
-const addressSchema = new Schema(
+export const addressSchema = new Schema(
   {
     street: String,
     city: String,
@@ -35,5 +35,4 @@ const userSchema = new Schema(
   },
   { timestamps: true }
 );
-const User = mongoose.model("User", userSchema);
-export default User;
+export const User = mongoose.model("User", userSchema);
