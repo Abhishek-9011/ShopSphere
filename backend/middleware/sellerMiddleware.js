@@ -2,8 +2,7 @@ import jwt from "jsonwebtoken";
 
 const sellerMiddleware = (req, res, next) => {
   try {
-    const token = req.header("Authorization")?.split(" ")[1];
-    console.log("Token received:", token);
+    const token = req.headers["authorization"];
 
     if (!token) {
       return res
@@ -20,8 +19,8 @@ const sellerMiddleware = (req, res, next) => {
     }
     console.log("Decoded token:", decoded);
 
-    // Make sure this matches your JWT payload structure
-    req.id = decoded.id; // Changed to userId to match your controller
+    
+    req.id = decoded.id; 
 
     next();
   } catch (error) {
@@ -30,5 +29,4 @@ const sellerMiddleware = (req, res, next) => {
   }
 };
 
-// Use named export instead of default export
 export default sellerMiddleware;

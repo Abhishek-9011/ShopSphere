@@ -2,8 +2,7 @@ import jwt from "jsonwebtoken";
 
 const userMiddleware = (req, res, next) => {
   try {
-    const token = req.header("Authorization")?.split(" ")[1];
-    console.log("Token received:", token);
+    const token = req.headers["authorization"];
 
     if (!token) {
       return res.status(401).json({ error: "Access denied. No token provided." });

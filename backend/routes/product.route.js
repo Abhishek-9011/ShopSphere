@@ -7,8 +7,8 @@ import {
   updateProduct,
 } from "../controllers/product.controller.js";
 const router = express.Router();
-router.post("/products", sellerMiddleware, createProduct);
-router.get("/products", sellerMiddleware, getProducts);
-router.put("/products/:id", sellerMiddleware, updateProduct);
-router.delete("/products/:id", sellerMiddleware, deleteProduct);
+router.post("/", sellerMiddleware, createProduct);
+router.get("/", sellerMiddleware, getProducts);
+router.put("/:id", sellerMiddleware, updateProduct);
+router.delete("/:id", sellerMiddleware, deleteProduct);
 export default router;
