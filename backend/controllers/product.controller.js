@@ -41,8 +41,7 @@ export const createProduct = async (req, res) => {
 // Get All Products (or optionally by seller)
 export const getProducts = async (req, res) => {
   try {
-    const { sellerId } = req.id;
-    const products = await Product.find({ sellerId });
+    const products = await Product.find({});
     if (!products) {
       return res.status(400).json({
         success: false,

@@ -40,9 +40,9 @@ export const signup = async (req, res) => {
 
 export const signin = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, role } = req.body;
 
-    if (!email || !password) {
+    if (!email || !password || !role) {
       return res.status(400).json({
         success: false,
         message: "Please provide email and password",
@@ -64,7 +64,12 @@ export const signin = async (req, res) => {
         message: "Invalid credentials",
       });
     }
-
+    if (role !== user.role) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid credentials",
+      });
+    }
     const token = jwt.sign(
       { id: user._id, role: user.role },
       process.env.JWT_SECRET,

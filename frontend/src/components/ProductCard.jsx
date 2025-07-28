@@ -5,18 +5,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Badge } from "./ui/badge";
 
 const ProductCard = ({
-  title = "Next.js Complete Course",
-  image = "https://miro.medium.com/v2/resize:fit:4800/format:webp/1*_bJ2z2NRfTncHAv5UjUxwA.jpeg",
-  description = "Master Next.js with this comprehensive course covering all fundamentals and advanced concepts",
-  price = 499,
-  discountPrice = 399,
-  stock = 5,
-  rating = 4.5,
-  reviewCount = 24,
-  instructor = {
-    name: "Abhishek",
-    avatar: "https://github.com/shadcn.png"
-  }
+  title,
+  image,
+  description,
+  price,
+  discountPrice,
+  stock,
+  rating,
 }) => {
   const formatPrice = (amount) => {
     return new Intl.NumberFormat("en-IN", {
@@ -57,11 +52,11 @@ const ProductCard = ({
   };
 
   return (
-    <Card className="w-[300px] rounded-lg overflow-hidden dark:bg-gray-800 bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 border-0 flex flex-col h-full">
+    <Card className="w-full max-w-[300px] rounded-lg overflow-hidden dark:bg-gray-800 bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 border-0 flex flex-col h-full">
       {/* Image section - covers upper part */}
-      <div className="relative flex-1 min-h-max">
+      <div className="relative w-full aspect-square overflow-hidden">
         <img
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
           src={image}
           alt={title}
         />
@@ -102,9 +97,6 @@ const ProductCard = ({
         
         <div className="flex items-center gap-1">
           {renderStars()}
-          <span className="text-xs text-gray-500 ml-1">
-            ({rating.toFixed(1)} · {reviewCount})
-          </span>
         </div>
         
         <div className="flex items-center justify-between mt-auto">
@@ -126,7 +118,7 @@ const ProductCard = ({
           </div>
           
           <button 
-            className={`p-2 rounded-full ${stock === 0 ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'} text-white transition-colors duration-200`}
+            className={`p-2 rounded-full flex justify-center items-center ${stock === 0 ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'} text-white transition-colors duration-200`}
             disabled={stock === 0}
           >
             <ShoppingCart className="w-4 h-4" />

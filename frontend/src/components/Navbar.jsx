@@ -57,12 +57,12 @@ const Navbar = () => {
               <DropdownMenuContent className="w-56" align="start">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuGroup>
-                  <DropdownMenuItem>My Learning</DropdownMenuItem>
-                  <DropdownMenuItem>Edit Profile</DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Link to={"/profile"}>Edit Profile</Link>
+                  </DropdownMenuItem>
                   <DropdownMenuItem>Log out</DropdownMenuItem>
                 </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>Dashboard</DropdownMenuItem>
+                
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
@@ -99,7 +99,6 @@ const MobileNavbar = () => {
         </SheetHeader>
         <Separator className="mr-4" />
         <nav className="flex flex-col space-y-4 ">
-          <span>Cart</span>
           <span>Edit Profile</span>
           <span>Log out</span>
         </nav>
