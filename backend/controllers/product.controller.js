@@ -4,8 +4,14 @@ import { Product } from "../models/product.model.js";
 export const createProduct = async (req, res) => {
   try {
     const { name, description, categories, price, stock, images } = req.body;
-    const sellerId = req.sellerId;
+    const sellerId = req.id;
 
+    if (!sellerId) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorize access",
+      });
+    }
     if (!name || !description || !price || !images) {
       return res.status(400).json({
         success: false,
@@ -20,7 +26,7 @@ export const createProduct = async (req, res) => {
       price,
       stock,
       images,
-      sellerId,
+      createdBy: sellerId,
     });
 
     return res.status(201).json({
@@ -39,7 +45,38 @@ export const createProduct = async (req, res) => {
 };
 
 // Get All Products (or optionally by seller)
-export const getProducts = async (req, res) => {
+
+export const getCreatedProducts = async (req, res) => {
+  try {
+    const sellerId = req.id;
+    const products = await Product.find({ createdBy: sellerId });
+    if (!products) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorize access",
+      });
+    }
+    if (!products) {
+      return res.status(400).json({
+        success: false,
+        message: "No products found",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      products,
+    });
+  } catch (error) {
+    console.error("Error fetching products:", error.message || error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch products",
+    });
+  }
+};
+
+export const getAllProducts = async (req, res) => {
   try {
     const products = await Product.find({});
     if (!products) {

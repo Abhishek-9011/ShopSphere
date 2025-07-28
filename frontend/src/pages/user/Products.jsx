@@ -174,7 +174,7 @@ const Products = () => {
             ))}
           </div>
         ) : (
-          <div className="text-center py-10">
+          <div className="tpt-center py-10">
             <p className="text-lg">No products match your filters</p>
             <button 
               onClick={() => setFilters({ priceRange: [], categories: [] })}
