@@ -15,35 +15,77 @@ import Sidebar from "./components/Sidebar";
 import UserPageWarning from "./pages/user/UserPageWarning";
 import SellerPageWarning from "./pages/seller/SellerPageWarning";
 import SellerProductContextProvider from "./context/SellerProductContextProvider";
+import UserProtectedRoute from "./pages/auth/UserProtectedRoute";
+import CartContextProvider from "./context/CartContextProvider";
 
 function App() {
   return (
     <>
-      <SellerProductContextProvider>
-        <ProductContextProvider>
-          <BrowserRouter>
-            <Navbar />
-            <Routes>
+      <CartContextProvider>
+        <SellerProductContextProvider>
+          <ProductContextProvider>
+            <BrowserRouter>
+              {/* <Navbar /> */}
+              <Routes>
+                <Route
+                  path="/*"
+                  element={
+                    <>
+                      <Navbar />
+                      <Routes>
+                        <Route
+                          path="/cart"
+                          element={
+                            <UserProtectedRoute>
+                              <CartPage />
+                            </UserProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="/profile"
+                          element={
+                            <UserProtectedRoute>
+                              <Profile />
+                            </UserProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="/products"
+                          element={
+                            <UserProtectedRoute>
+                              <Products />
+                            </UserProtectedRoute>
+                          }
+                        />
+
+                        <Route path="/" element={<Landing />} />
+                      </Routes>
+                      <Footer />
+                    </>
+                  }
+                />
+                {/* 
               <Route path="/" element={<Landing />} />
               <Route path="/products" element={<Products />} />
               <Route path="/cart" element={<CartPage />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/signin" element={<Signin />} />
-              <Route path="/seller/products" element={<SellerProducts />} />
-              <Route path="/seller/dashboard" element={<Dashboard />} />
-              <Route path="/seller/orders" element={<SellerOrders />} />
-              <Route path="/sidebar" element={<Sidebar />} />
-              <Route path="/restricted/user" element={<UserPageWarning />} />
-              <Route
-                path="/restricted/seller"
-                element={<SellerPageWarning />}
-              />
-            </Routes>
-          </BrowserRouter>
-          <Footer />
-        </ProductContextProvider>
-      </SellerProductContextProvider>
+              <Route path="/profile" element={<Profile />} /> */}
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/signin" element={<Signin />} />
+                <Route path="/seller/products" element={<SellerProducts />} />
+                <Route path="/seller/dashboard" element={<Dashboard />} />
+                <Route path="/seller/orders" element={<SellerOrders />} />
+                <Route path="/sidebar" element={<Sidebar />} />
+                <Route path="/restricted/user" element={<UserPageWarning />} />
+                <Route
+                  path="/restricted/seller"
+                  element={<SellerPageWarning />}
+                />
+              </Routes>
+            </BrowserRouter>
+            {/* <Footer /> */}
+          </ProductContextProvider>
+        </SellerProductContextProvider>
+      </CartContextProvider>
     </>
   );
 }

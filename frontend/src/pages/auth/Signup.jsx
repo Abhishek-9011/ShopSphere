@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { User, Mail, Home, Lock, ChevronDown } from "lucide-react";
 import {handleSignup} from "@/services/authApi";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [addresses, setAddresses] = useState([]);
@@ -355,6 +355,15 @@ const Signup = () => {
               >
                 {isSubmitting ? "Signing up..." : "Sign up"}
               </button>
+            </div>
+             <div className="flex justify-center items-center">
+              <p className="font-bold">
+                Already Have an account?
+                <Link className="text-blue-600" to={"/signin"}>
+                  {" "}
+                  Signin
+                </Link>
+              </p>
             </div>
           </form>
         </div>

@@ -26,7 +26,8 @@ import { Input } from "./ui/input";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import { Link } from "react-router-dom";
 const Navbar = () => {
-  const user = true;
+  const token =  localStorage.getItem('token');
+  const user = token?true:false
   return (
     <div className="h-16 dark:bg-[#0A0A0A] bg-white border-b dark:border-b-gray-800 border-b-gray-200 top-0 left-0 right-0 duration-300 z-10">
       <div className=" mx-auto max-w-7xl hidden md:flex justify-between items-center gap-10 h-full">
@@ -41,7 +42,6 @@ const Navbar = () => {
         <div className="flex gap-4">
           <Link to={"/products"}>All items</Link>
         </div>
-
         <div className="flex items-center gap-8">
           <Link to={"/cart"}>
             <ShoppingBag />

@@ -124,11 +124,19 @@ function OrderTable() {
           <TableRow>
             <TableHead className="w-[100px]">Order ID</TableHead>
             <TableHead className="min-w-[150px]">Customer</TableHead>
-            <TableHead className="min-w-[200px] hidden md:table-cell">Products</TableHead>
-            <TableHead className="w-[120px] hidden sm:table-cell">Order Date</TableHead>
-            <TableHead className="min-w-[200px] hidden lg:table-cell">Delivery Address</TableHead>
+            <TableHead className="min-w-[200px] hidden md:table-cell">
+              Products
+            </TableHead>
+            <TableHead className="w-[120px] hidden sm:table-cell">
+              Order Date
+            </TableHead>
+            <TableHead className="min-w-[200px] hidden lg:table-cell">
+              Delivery Address
+            </TableHead>
             <TableHead className="w-[120px]">Status</TableHead>
-            <TableHead className="w-[120px] hidden md:table-cell">Payment</TableHead>
+            <TableHead className="w-[120px] hidden md:table-cell">
+              Payment
+            </TableHead>
             <TableHead className="w-[100px] text-right">Amount</TableHead>
             <TableHead className="w-[150px] text-right">Actions</TableHead>
           </TableRow>
@@ -155,7 +163,9 @@ function OrderTable() {
                   ))}
                 </div>
               </TableCell>
-              <TableCell className="hidden sm:table-cell">{order.orderDate}</TableCell>
+              <TableCell className="hidden sm:table-cell">
+                {order.orderDate}
+              </TableCell>
               <TableCell className="hidden lg:table-cell">
                 <div className="text-sm line-clamp-2">
                   {order.deliveryAddress}
@@ -186,7 +196,11 @@ function OrderTable() {
               <TableCell className="text-right space-x-2">
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button variant="outline" size="sm" className="hidden sm:inline-flex">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="hidden sm:inline-flex"
+                    >
                       Details
                     </Button>
                   </DialogTrigger>
@@ -196,7 +210,9 @@ function OrderTable() {
                       <DialogDescription>
                         <div className="mt-4 space-y-4">
                           <div>
-                            <h3 className="font-medium">Customer Information</h3>
+                            <h3 className="font-medium">
+                              Customer Information
+                            </h3>
                             <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
                               <div>
                                 <p className="text-sm text-gray-500">Name</p>
@@ -258,7 +274,9 @@ function OrderTable() {
                           </div>
 
                           <div>
-                            <h3 className="font-medium">Shipping Information</h3>
+                            <h3 className="font-medium">
+                              Shipping Information
+                            </h3>
                             <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
                               <div>
                                 <p className="text-sm text-gray-500">
@@ -297,9 +315,7 @@ function OrderTable() {
                     </DialogHeader>
                   </DialogContent>
                 </Dialog>
-                <Button variant="destructive" size="sm" className="hidden sm:inline-flex">
-                  Edit
-                </Button>
+
                 <Dialog>
                   <DialogTrigger asChild>
                     <Button variant="outline" size="sm" className="sm:hidden">
@@ -312,7 +328,9 @@ function OrderTable() {
                       <DialogDescription>
                         <div className="mt-4 space-y-4">
                           <div>
-                            <h3 className="font-medium">Customer Information</h3>
+                            <h3 className="font-medium">
+                              Customer Information
+                            </h3>
                             <div className="mt-2 grid grid-cols-1 gap-4">
                               <div>
                                 <p className="text-sm text-gray-500">Name</p>
@@ -370,7 +388,9 @@ function OrderTable() {
                           </div>
 
                           <div>
-                            <h3 className="font-medium">Shipping Information</h3>
+                            <h3 className="font-medium">
+                              Shipping Information
+                            </h3>
                             <div className="mt-2 grid grid-cols-1 gap-4">
                               <div>
                                 <p className="text-sm text-gray-500">
@@ -415,8 +435,12 @@ function OrderTable() {
         </TableBody>
         <TableFooter className="bg-gray-100">
           <TableRow>
-            <TableCell colSpan={5} className="hidden sm:table-cell">Total Revenue</TableCell>
-            <TableCell colSpan={3} className="sm:hidden">Total</TableCell>
+            <TableCell colSpan={5} className="hidden sm:table-cell">
+              Total Revenue
+            </TableCell>
+            <TableCell colSpan={3} className="sm:hidden">
+              Total
+            </TableCell>
             <TableCell className="text-right font-medium">
               {totalRevenue.toLocaleString("en-US", {
                 style: "currency",
@@ -437,17 +461,9 @@ const SellerOrders = () => {
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gray-50">
       <Sidebar className="w-full md:w-64" />
-      <div className="flex-1 p-4 md:p-6 overflow-auto">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+      <div className="flex-1  md:p-6 overflow-auto">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center  gap-4">
           <h1 className="text-2xl font-bold">Customer Orders</h1>
-          <div className="flex flex-wrap gap-2 w-full sm:w-auto">
-            <Button variant="outline" size="sm" className="flex-1 sm:flex-none">
-              Export
-            </Button>
-            <Button size="sm" className="flex-1 sm:flex-none">
-              Filter
-            </Button>
-          </div>
         </div>
         <OrderTable />
       </div>

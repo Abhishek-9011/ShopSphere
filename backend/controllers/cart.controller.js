@@ -1,6 +1,6 @@
-import { Cart } from "../models/cart.js";
-import { Product } from "../models/product.js";
-
+import { Cart } from "../models/cart.model.js";
+import { Product } from "../models/product.model.js";
+import mongoose from "mongoose";
 // Get user's cart
 export const getCart = async (req, res) => {
   const userId = req.id;
@@ -59,13 +59,16 @@ export const updateCartItem = async (req, res) => {
     let cart = await Cart.findOne({ user: userId });
     if (!cart)
       return res.status(404).json({ error: "Cart does not exist" });
-
+    console.log(cart.items[0].product.toString());
+    console.log(productId);
+    
     let item = cart.items.find(
       (item) => item.product.toString() === productId
     );
+    console.log(item);
     if (!item)
       return res.status(404).json({ error: "Item not in cart" });
-
+    
     item.quantity = quantity;
     cart.updatedAt = Date.now();
     await cart.save();

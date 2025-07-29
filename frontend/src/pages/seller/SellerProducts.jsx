@@ -370,7 +370,7 @@ function ProductTable() {
             );
           })}
         </TableBody>
-        <TableFooter className="bg-gray-100">
+        <TableFooter className="bg-gray-100 min-w-max">
           <TableRow>
             <TableCell colSpan={3}>Total Inventory Value</TableCell>
             <TableCell colSpan={1} className="text-right">
@@ -383,6 +383,9 @@ function ProductTable() {
             </TableCell>
             <TableCell className="text-right">
               {products.length} items
+            </TableCell>
+             <TableCell className="text-right">
+              
             </TableCell>
           </TableRow>
         </TableFooter>

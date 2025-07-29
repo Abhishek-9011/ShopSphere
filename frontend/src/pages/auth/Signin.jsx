@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { Mail, Lock } from "lucide-react";
 import { handleSignin } from "@/services/authApi";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Signin = () => {
   const [errors, setErrors] = useState({});
@@ -48,10 +48,10 @@ const Signin = () => {
         const data = await handleSignin(credentials);
         // Store token/user data as needed
         console.log(data);
-        
+
         localStorage.setItem("token", data.data.token);
         // Redirect based on role
-        navigate(credentials.role === "seller" ? "/dashboard" : "/");
+        navigate(credentials.role === "seller" ? "/seller/dashboard" : "/");
       } catch (error) {
         setApiError(error.message);
       } finally {
@@ -75,11 +75,14 @@ const Signin = () => {
               {apiError}
             </div>
           )}
-          
+
           <form className="space-y-6" onSubmit={handleSubmit}>
             {/* Email */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Email address
               </label>
               <div className="mt-1 relative rounded-md shadow-sm">
@@ -104,7 +107,10 @@ const Signin = () => {
 
             {/* Password */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Password
               </label>
               <div className="mt-1 relative rounded-md shadow-sm">
@@ -129,7 +135,10 @@ const Signin = () => {
 
             {/* Role */}
             <div>
-              <label htmlFor="role" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="role"
+                className="block text-sm font-medium text-gray-700"
+              >
                 I am signing in as a:
               </label>
               <div className="mt-1 relative">
@@ -146,27 +155,6 @@ const Signin = () => {
               </div>
             </div>
 
-            {/* Remember me and Forgot password */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  id="remember-me"
-                  name="remember-me"
-                  type="checkbox"
-                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-                  Remember me
-                </label>
-              </div>
-
-              <div className="text-sm">
-                <a href="/forgot-password" className="font-medium text-indigo-600 hover:text-indigo-500">
-                  Forgot your password?
-                </a>
-              </div>
-            </div>
-
             {/* Submit Button */}
             <div>
               <button
@@ -176,6 +164,15 @@ const Signin = () => {
               >
                 {isSubmitting ? "Signing in..." : "Sign in"}
               </button>
+            </div>
+            <div className="flex justify-center items-center">
+              <p className="font-bold">
+                Don't Have an account?
+                <Link className="text-blue-600" to={"/signup"}>
+                  {" "}
+                  Signup
+                </Link>
+              </p>
             </div>
           </form>
         </div>

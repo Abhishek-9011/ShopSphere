@@ -1,7 +1,28 @@
 import { ShoppingBag } from "lucide-react";
 import React, { useState } from "react";
-
+import { useCart } from "../../context/CartContext";
+import { addItemToCart } from "@/services/cartApi";
 const LandingPageCard = ({ title, price, image }) => {
+  const { loading, refreshCart } = useCart();
+  const handleAddToCart = async () => {
+    try {
+      console.log("Sending to cart:", {
+        productId: id,
+        quantity: 1,
+      });
+
+      await addItemToCart({
+        productId: id,
+        quantity: 1,
+      });
+
+      if (refreshCart) refreshCart(); // Optional: refresh context state
+      console.log("Product added to cart!");
+    } catch (error) {
+      console.error("Failed to add to cart:", error);
+    }
+  };
+
   return (
     <div className="relative group overflow-hidden rounded-lg aspect-[3/4] w-full">
       <img
@@ -9,7 +30,10 @@ const LandingPageCard = ({ title, price, image }) => {
         src={image}
         alt={title}
       />
-      <button className="absolute top-3 right-3 z-20 p-2 bg-white rounded-full shadow-md hover:bg-gray-100 transition-all duration-200">
+      <button
+        onClick={handleAddToCart}
+        className="absolute top-3 right-3 z-20 p-2 bg-white rounded-full shadow-md hover:bg-gray-100 transition-all duration-200"
+      >
         <ShoppingBag className="w-4 h-4 text-gray-800" />
       </button>
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
