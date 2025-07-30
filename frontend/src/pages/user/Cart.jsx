@@ -1,10 +1,12 @@
 import CartContext from "@/context/CartContext";
 import { ShoppingBag, X } from "lucide-react";
 import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const CartPage = () => {
   const cart = useContext(CartContext);
-
+  const navigate = useNavigate()
   const [discount, setDiscount] = useState(0); // Default 0
   const [shipping, setShipping] = useState(0); // Default 0
   // console.log(cart.cartItems[0].product.price);
@@ -30,7 +32,7 @@ const CartPage = () => {
     return <p className="p-8 text-center text-red-500">Error: {cart.error}</p>;
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8 font-sans">
+    <div className="max-w-6xl min-h-screen mx-auto px-4 py-8 font-sans">
       {/* Header */}
       <div className="flex items-center gap-2 mb-6">
         <ShoppingBag className="w-5 h-5" />
@@ -139,18 +141,20 @@ const CartPage = () => {
               </div>
             </div>
 
-            <button className="w-full py-3 bg-black text-white rounded hover:bg-gray-800 mt-4">
+            <button onClick={()=>{
+            toast.success("Order Placed Sucessfully")
+              // navigate('/order')
+            }} className="w-full py-3 bg-black text-white rounded hover:bg-gray-800 mt-4">
               Place Order
             </button>
 
-            <p className="text-xs text-gray-500 mt-6 text-center">
-              Secure checkout powered by XYZ
-            </p>
+         
           </div>
         </div>
       </div>
     </div>
   );
 };
+
 
 export default CartPage;

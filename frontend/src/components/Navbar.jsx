@@ -24,10 +24,11 @@ import {
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Separator } from "@radix-ui/react-dropdown-menu";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const Navbar = () => {
-  const token =  localStorage.getItem('token');
-  const user = token?true:false
+  const token = localStorage.getItem("token");
+  const user = token ? true : false;
+  const navigate = useNavigate();
   return (
     <div className="h-16 dark:bg-[#0A0A0A] bg-white border-b dark:border-b-gray-800 border-b-gray-200 top-0 left-0 right-0 duration-300 z-10">
       <div className=" mx-auto max-w-7xl hidden md:flex justify-between items-center gap-10 h-full">
@@ -40,7 +41,12 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="flex gap-4">
-          <Link to={"/products"}>All items</Link>
+          <Link to={"/products"}>
+          <p className=" text-xl"> 
+            All items
+          </p>
+          
+          </Link>
         </div>
         <div className="flex items-center gap-8">
           <Link to={"/cart"}>
@@ -57,18 +63,31 @@ const Navbar = () => {
               <DropdownMenuContent className="w-56" align="start">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuGroup>
-                  <DropdownMenuItem>
+                  {/* <DropdownMenuItem>
                     <Link to={"/profile"}>Edit Profile</Link>
+                  </DropdownMenuItem> */}
+                  <DropdownMenuItem>
+                    <span
+                      onClick={() => {
+                        localStorage.removeItem("token");
+                        navigate
+                      }}
+                    >
+                      Log out
+                    </span>
                   </DropdownMenuItem>
-                  <DropdownMenuItem>Log out</DropdownMenuItem>
                 </DropdownMenuGroup>
-                
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
             <div className="flex items-center gap-2">
-              <Button variant={"outline"}>Login</Button>
-              <Button>Signup</Button>
+              <Button variant={"outline"}>
+                <Link to={"/signin"}>Login</Link>
+              </Button>
+              <Button>
+                {" "}
+                <Link to={"/signin"}>Signup</Link>
+              </Button>
             </div>
           )}
         </div>

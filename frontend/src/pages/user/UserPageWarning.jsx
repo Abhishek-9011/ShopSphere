@@ -36,7 +36,7 @@ export default function UserPageWarning() {
         
         {/* Action Buttons */}
         <div className="space-y-3">
-          <button onClick={ () =>{ navigate("/seller/dashboard") }} className="w-full bg-blue-500 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-600 transition-colors duration-200 flex items-center justify-center">
+          <button onClick={ () =>{ navigate("/seller/products") }} className="w-full bg-blue-500 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-600 transition-colors duration-200 flex items-center justify-center">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Go Back to Seller Page
           </button>

@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { User, Mail, Home, Lock, ChevronDown } from "lucide-react";
 import {handleSignup} from "@/services/authApi";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const Signup = () => {
   const [addresses, setAddresses] = useState([]);
@@ -89,9 +90,11 @@ const Signup = () => {
       try {
         setAddresses([...addresses, address]);
         await handleSignup(userData);
+        toast.success("Signup Success")
         navigate("/signin"); // Navigate on success
       } catch (error) {
         console.error("Signup error:", error);
+        toast.error("Signup Fail")
         setApiError(
           error.response?.data?.message || "Signup failed. Please try again."
         );

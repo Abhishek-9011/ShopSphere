@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { Mail, Lock } from "lucide-react";
 import { handleSignin } from "@/services/authApi";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const Signin = () => {
   const [errors, setErrors] = useState({});
@@ -51,8 +52,10 @@ const Signin = () => {
 
         localStorage.setItem("token", data.data.token);
         // Redirect based on role
-        navigate(credentials.role === "seller" ? "/seller/dashboard" : "/");
+        toast.success("Signin SuccessFull");
+        navigate(credentials.role === "seller" ? "/seller/products" : "/");
       } catch (error) {
+        toast.fail("Signin Failed");
         setApiError(error.message);
       } finally {
         setIsSubmitting(false);

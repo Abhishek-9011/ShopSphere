@@ -12,13 +12,15 @@ const Products = () => {
     categories: []
   });
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortOption, setSortOption] = useState('featured');
   const productsPerPage = 8;
 
   const products = Array.isArray(productsData) 
     ? productsData 
     : productsData?.products || [];
   
-  const filteredProducts = products.filter(product => {
+  // Filter products first
+  let filteredProducts = products.filter(product => {
     if (!product) return false;
     
     const priceMatch = filters.priceRange.length === 0 || 
@@ -35,6 +37,18 @@ const Products = () => {
       filters.categories.includes(product.category);
     
     return priceMatch && categoryMatch;
+  });
+
+  // Sort products based on selected option
+  filteredProducts = [...filteredProducts].sort((a, b) => {
+    switch (sortOption) {
+      case 'price-low-high':
+        return (a.price || 0) - (b.price || 0);
+      case 'price-high-low':
+        return (b.price || 0) - (a.price || 0);
+      default:
+        return 0; // Default or 'featured' - no sorting
+    }
   });
 
   // Pagination logic
@@ -55,6 +69,11 @@ const Products = () => {
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+  };
+
+  const handleSortChange = (e) => {
+    setSortOption(e.target.value);
+    setCurrentPage(1); // Reset to first page when sort changes
   };
 
   if (loading) return <div className="flex justify-center items-center min-h-screen"><span className="loading loading-spinner loading-lg"></span></div>;
@@ -88,11 +107,14 @@ const Products = () => {
         <div className="hidden md:flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold">All Products ({filteredProducts.length})</h1>
           <div>
-            <select className="select select-bordered select-sm md:select-md">
-              <option>Sort by: Featured</option>
-              <option>Price: Low to High</option>
-              <option>Price: High to Low</option>
-              <option>Newest</option>
+            <select 
+              className="select select-bordered select-sm md:select-md"
+              value={sortOption}
+              onChange={handleSortChange}
+            >
+              <option value="featured">Sort by: Featured</option>
+              <option value="price-low-high">Price: Low to High</option>
+              <option value="price-high-low">Price: High to Low</option>
             </select>
           </div>
         </div>

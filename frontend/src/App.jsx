@@ -17,6 +17,7 @@ import SellerPageWarning from "./pages/seller/SellerPageWarning";
 import SellerProductContextProvider from "./context/SellerProductContextProvider";
 import UserProtectedRoute from "./pages/auth/UserProtectedRoute";
 import CartContextProvider from "./context/CartContextProvider";
+import Order from "./pages/user/Order";
 
 function App() {
   return (
@@ -46,6 +47,14 @@ function App() {
                           element={
                             <UserProtectedRoute>
                               <Profile />
+                            </UserProtectedRoute>
+                          }
+                        />
+                          <Route
+                          path="/order"
+                          element={
+                            <UserProtectedRoute>
+                              <Order />
                             </UserProtectedRoute>
                           }
                         />

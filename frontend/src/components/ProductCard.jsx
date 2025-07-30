@@ -4,6 +4,7 @@ import { Card, CardContent } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { useCart } from "../context/CartContext"; // Custom cart context
 import { addItemToCart } from "@/services/cartApi";
+import { toast } from "sonner";
 
 const ProductCard = ({
   id,
@@ -68,8 +69,10 @@ const ProductCard = ({
       });
 
       if (refreshCart) refreshCart(); // Optional: refresh context state
+      toast.success("Product Added to Cart")
       console.log("Product added to cart!");
     } catch (error) {
+      toast.success("Product Failed to Add Cart")
       console.error("Failed to add to cart:", error);
     }
   };

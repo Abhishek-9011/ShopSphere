@@ -18,9 +18,9 @@ const Sidebar = () => {
   };
 
   const navItems = [
-    { icon: <Home size={20} />, label: "DashBoard" },
+    // { icon: <Home size={20} />, label: "DashBoard" },
     { icon: <Users size={20} />, label: "Products" },
-    { icon: <FileText size={20} />, label: "Orders" },
+    // { icon: <FileText size={20} />, label: "Orders" },
   ];
   const navigate = useNavigate();
   return (
@@ -54,8 +54,24 @@ const Sidebar = () => {
                       isCollapsed ? "justify-center" : ""
                     }`}
                   >
-                    <span onClick={()=>navigate(`/seller/${item.label.toLowerCase()}`)}  className="flex-shrink-0">{item.icon}</span>
-                    {!isCollapsed && <span onClick={()=>navigate(`/seller/${item.label.toLowerCase()}`)} className="ml-3">{item.label}</span>}
+                    <span
+                      onClick={() =>
+                        navigate(`/seller/${item.label.toLowerCase()}`)
+                      }
+                      className="flex-shrink-0"
+                    >
+                      {item.icon}
+                    </span>
+                    {!isCollapsed && (
+                      <span
+                        onClick={() =>
+                          navigate(`/seller/${item.label.toLowerCase()}`)
+                        }
+                        className="ml-3"
+                      >
+                        {item.label}
+                      </span>
+                    )}
                   </a>
                 </li>
               ))}
@@ -71,7 +87,14 @@ const Sidebar = () => {
         >
           {!isCollapsed && (
             <div className="ml-3">
-              <p className="text-sm font-medium">Log Out</p>
+              <p
+                className="text-sm font-medium"
+                onClick={() => {
+                  localStorage.removeItem("token");
+                }}
+              >
+                Log Out
+              </p>
             </div>
           )}
         </div>
