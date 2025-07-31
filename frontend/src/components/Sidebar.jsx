@@ -9,6 +9,7 @@ import {
   Calendar,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { Button } from "./ui/button";
 
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -18,13 +19,13 @@ const Sidebar = () => {
   };
 
   const navItems = [
-    // { icon: <Home size={20} />, label: "DashBoard" },
+    { icon: <Home size={20} />, label: "DashBoard" },
     { icon: <Users size={20} />, label: "Products" },
     { icon: <FileText size={20} />, label: "Orders" },
   ];
   const navigate = useNavigate();
   return (
-    <div className="flex h-screen">
+    <div className="flex min-h-screen">
       {/* Sidebar */}
       <div
         className={`bg-gray-400 text-white transition-all duration-300 ease-in-out ${
@@ -87,14 +88,16 @@ const Sidebar = () => {
         >
           {!isCollapsed && (
             <div className="ml-3">
-              <p
-                className="text-sm font-medium"
+              <Button
+                variant={"link"}
+                className={"text-white"}
                 onClick={() => {
                   localStorage.removeItem("token");
+                  navigate('/signin')
                 }}
               >
                 Log Out
-              </p>
+              </Button>
             </div>
           )}
         </div>
