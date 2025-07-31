@@ -18,83 +18,91 @@ import SellerProductContextProvider from "./context/SellerProductContextProvider
 import UserProtectedRoute from "./pages/auth/UserProtectedRoute";
 import CartContextProvider from "./context/CartContextProvider";
 import Order from "./pages/user/Order";
+import UserContextProvider from "./context/UserContextProvider";
+import SellerTestOrders from "./pages/Test/TestOrder";
 
 function App() {
   return (
     <>
-      <CartContextProvider>
-        <SellerProductContextProvider>
-          <ProductContextProvider>
-            <BrowserRouter>
-              {/* <Navbar /> */}
-              <Routes>
-                <Route
-                  path="/*"
-                  element={
-                    <>
-                      <Navbar />
-                      <Routes>
-                        <Route
-                          path="/cart"
-                          element={
-                            <UserProtectedRoute>
-                              <CartPage />
-                            </UserProtectedRoute>
-                          }
-                        />
-                        <Route
-                          path="/profile"
-                          element={
-                            <UserProtectedRoute>
-                              <Profile />
-                            </UserProtectedRoute>
-                          }
-                        />
+      <UserContextProvider>
+        <CartContextProvider>
+          <SellerProductContextProvider>
+            <ProductContextProvider>
+              <BrowserRouter>
+                {/* <Navbar /> */}
+                <Routes>
+                  <Route
+                    path="/*"
+                    element={
+                      <>
+                        <Navbar />
+                        <Routes>
                           <Route
-                          path="/order"
-                          element={
-                            <UserProtectedRoute>
-                              <Order />
-                            </UserProtectedRoute>
-                          }
-                        />
-                        <Route
-                          path="/products"
-                          element={
-                            <UserProtectedRoute>
-                              <Products />
-                            </UserProtectedRoute>
-                          }
-                        />
+                            path="/cart"
+                            element={
+                              <UserProtectedRoute>
+                                <CartPage />
+                              </UserProtectedRoute>
+                            }
+                          />
+                          <Route
+                            path="/profile"
+                            element={
+                              <UserProtectedRoute>
+                                <Profile />
+                              </UserProtectedRoute>
+                            }
+                          />
+                          <Route
+                            path="/order"
+                            element={
+                              <UserProtectedRoute>
+                                <Order />
+                              </UserProtectedRoute>
+                            }
+                          />
+                          <Route
+                            path="/products"
+                            element={
+                              <UserProtectedRoute>
+                                <Products />
+                              </UserProtectedRoute>
+                            }
+                          />
 
-                        <Route path="/" element={<Landing />} />
-                      </Routes>
-                      <Footer />
-                    </>
-                  }
-                />
-                {/* 
+                          <Route path="/" element={<Landing />} />
+                        </Routes>
+                        <Footer />
+                      </>
+                    }
+                  />
+                  {/* 
               <Route path="/" element={<Landing />} />
               <Route path="/products" element={<Products />} />
               <Route path="/cart" element={<CartPage />} />
               <Route path="/profile" element={<Profile />} /> */}
-                <Route path="/signup" element={<Signup />} />
-                <Route path="/signin" element={<Signin />} />
-                <Route path="/seller/products" element={<SellerProducts />} />
-                <Route path="/seller/dashboard" element={<Dashboard />} />
-                <Route path="/seller/orders" element={<SellerOrders />} />
-                <Route path="/sidebar" element={<Sidebar />} />
-                <Route path="/restricted/user" element={<UserPageWarning />} />
-                <Route
-                  path="/restricted/seller"
-                  element={<SellerPageWarning />}
-                />
-              </Routes>
-            </BrowserRouter>
-            {/* <Footer /> */}
-          </ProductContextProvider>
-        </SellerProductContextProvider>
-      </CartContextProvider>
+                  <Route path="/signup" element={<Signup />} />
+                  <Route path="/signin" element={<Signin />} />
+                  <Route path="/seller/products" element={<SellerProducts />} />
+                  <Route path="/seller/dashboard" element={<Dashboard />} />
+                  <Route path="/seller/orders" element={<SellerOrders />} />
+                  <Route path="/seller/test/orders" element={<SellerTestOrders />} />
+                  <Route path="/sidebar" element={<Sidebar />} />
+                  <Route
+                    path="/restricted/user"
+                    element={<UserPageWarning />}
+                  />
+                  <Route
+                    path="/restricted/seller"
+                    element={<SellerPageWarning />}
+                  />
+                </Routes>
+              </BrowserRouter>
+              {/* <Footer /> */}
+            </ProductContextProvider>
+          </SellerProductContextProvider>
+        </CartContextProvider>
+      </UserContextProvider>
     </>
   );
 }

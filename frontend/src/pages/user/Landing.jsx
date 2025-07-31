@@ -1,7 +1,8 @@
 import { ShoppingBag } from "lucide-react";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useCart } from "../../context/CartContext";
 import { addItemToCart } from "@/services/cartApi";
+import UserContext from "@/context/UserContext";
 const LandingPageCard = ({ title, price, image }) => {
   const { loading, refreshCart } = useCart();
   const handleAddToCart = async () => {
@@ -22,7 +23,9 @@ const LandingPageCard = ({ title, price, image }) => {
       console.error("Failed to add to cart:", error);
     }
   };
-
+  const user = useContext(UserContext);
+  console.log(user?.user?.data);
+  
   return (
     <div className="relative group overflow-hidden rounded-lg aspect-[3/4] w-full">
       <img

@@ -462,7 +462,13 @@ const OrderTable = ({ orders = [], loading, error }) => {
             <TableCell className="text-right font-medium">
               ₹{totalRevenue.toLocaleString('en-IN')}
             </TableCell>
+               <TableCell className="text-right font-medium">
+              ₹{totalRevenue.toLocaleString('en-IN')}
+            </TableCell>
             <TableCell className="text-right">{orders.length} orders</TableCell>
+             <TableCell colSpan={3} className="sm:hidden">
+              Total
+            </TableCell>
           </TableRow>
         </TableFooter>
       </Table>
@@ -471,7 +477,7 @@ const OrderTable = ({ orders = [], loading, error }) => {
 };
 
 // SellerTestOrders Component
-const SellerOrders = () => {
+const SellerTestOrders = () => {
   const { user } = useContext(UserContext);
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -526,4 +532,4 @@ const SellerOrders = () => {
   );
 };
 
-export default SellerOrders;
+export default SellerTestOrders;

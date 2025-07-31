@@ -13,7 +13,6 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useCart } from "@/context/CartContext";
 
-
 const Order = () => {
   const { cartItems, clearCart } = useCart();
   const [shippingAddress, setShippingAddress] = useState({
@@ -35,9 +34,9 @@ const Order = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
-      const items = cartItems.map(item => ({
+      const items = cartItems.map((item) => ({
         product: item.productId,
         quantity: item.quantity,
       }));
@@ -81,60 +80,30 @@ const Order = () => {
             Order Summary
           </DialogTitle>
           <DialogDescription>
-            <form onSubmit={handleSubmit} className="grid gap-4 py-4">
+            <form className="grid gap-4 py-4">
               {/* Shipping Address Section */}
               <div className="space-y-2">
                 <h3 className="font-medium">Shipping Address</h3>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1">
                     <Label htmlFor="street">Street</Label>
-                    <Input
-                      id="street"
-                      name="street"
-                      value={shippingAddress.street}
-                      onChange={handleAddressChange}
-                      required
-                    />
+                    <Input id="street" name="street" required />
                   </div>
                   <div className="space-y-1">
                     <Label htmlFor="city">City</Label>
-                    <Input
-                      id="city"
-                      name="city"
-                      value={shippingAddress.city}
-                      onChange={handleAddressChange}
-                      required
-                    />
+                    <Input id="city" name="city" required />
                   </div>
                   <div className="space-y-1">
                     <Label htmlFor="state">State/Province</Label>
-                    <Input
-                      id="state"
-                      name="state"
-                      value={shippingAddress.state}
-                      onChange={handleAddressChange}
-                      required
-                    />
+                    <Input id="state" name="state" required />
                   </div>
                   <div className="space-y-1">
                     <Label htmlFor="zip">ZIP/Postal Code</Label>
-                    <Input
-                      id="zip"
-                      name="zip"
-                      value={shippingAddress.zip}
-                      onChange={handleAddressChange}
-                      required
-                    />
+                    <Input id="zip" name="zip" required />
                   </div>
                   <div className="space-y-1">
                     <Label htmlFor="country">Country</Label>
-                    <Input
-                      id="country"
-                      name="country"
-                      value={shippingAddress.country}
-                      onChange={handleAddressChange}
-                      required
-                    />
+                    <Input id="country" name="country" required />
                   </div>
                 </div>
               </div>
@@ -142,11 +111,7 @@ const Order = () => {
               {/* Payment Method Section */}
               <div className="space-y-2">
                 <h3 className="font-medium">Payment Method</h3>
-                <RadioGroup
-                  value={paymentMethod}
-                  onValueChange={setPaymentMethod}
-                  className="grid grid-cols-3 gap-4"
-                >
+                <RadioGroup className="grid grid-cols-3 gap-4">
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="credit_card" id="credit_card" />
                     <Label htmlFor="credit_card">Credit Card</Label>
@@ -167,13 +132,18 @@ const Order = () => {
                 <h3 className="font-medium">Order Items</h3>
                 <div className="border rounded-lg divide-y">
                   {cartItems.map((item) => (
-                    <div key={item.productId} className="p-4 flex justify-between">
+                    <div
+                      key={item.productId}
+                      className="p-4 flex justify-between"
+                    >
                       <div>
                         <p className="font-medium">{item.name}</p>
-                        <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
+                        <p className="text-sm text-gray-500">
+                          Qty: {item.quantity}
+                        </p>
                       </div>
                       <p className="font-medium">
-                        ${(item.price * item.quantity / 100).toFixed(2)}
+                        ${(item.price * item.quantity) / 100}
                       </p>
                     </div>
                   ))}
@@ -182,12 +152,10 @@ const Order = () => {
                   <span>Total:</span>
                   <span>
                     $
-                    {(
-                      cartItems.reduce(
-                        (total, item) => total + item.price * item.quantity,
-                        0
-                      ) / 100
-                    ).toFixed(2)}
+                    {cartItems.reduce(
+                      (total, item) => total + item.price * item.quantity,
+                      0
+                    ) / 100}
                   </span>
                 </div>
               </div>

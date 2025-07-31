@@ -1,38 +1,128 @@
 import mongoose from "mongoose";
-import { Schema } from "mongoose";
-export const addressSchema = new Schema(
+import { addressSchema } from "./user.model.js";
+const Schema = mongoose.Schema;
+
+const orderItemSchema = new Schema(
   {
-    street: String,
-    city: String,
-    state: String,
-    zip: String,
-    country: String,
+    product: {
+      type: Schema.Types.ObjectId,
+      ref: "Product",
+      required: true,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    quantity: {
+      type: Number,
+      required: true,
+      min: 1,
+    },
+    price: {
+      type: Number,
+      required: true,
+    },
+    image: {
+      type: String,
+      required: true,
+    },
+    variant: {
+      type: String,
+    },
   },
   { _id: false }
 );
-const userSchema = new Schema(
+
+const paymentResultSchema = new Schema(
   {
-    username: {
+    paymentId: {
       type: String,
-      required: true,
     },
-    email: {
+    status: {
       type: String,
-      required: true,
-      unique: true,
     },
-    address: [addressSchema],
-    password: {
+    updateTime: {
       type: String,
-      required: true,
     },
-    role: {
+    emailAddress: {  // This is only for payment receipts, not for order identification
       type: String,
-      enum: ["user", "seller", "admin"],
-      required: true,
-      default: "user",
     },
   },
-  { timestamps: true }
+  { _id: false }
 );
-export const User = mongoose.model("User", userSchema);
+
+const orderSchema = new Schema(
+  {
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+      index: true  // Add index for better query performance
+    },
+    orderItems: [orderItemSchema],
+    shippingAddress: addressSchema,
+    paymentMethod: {
+      type: String,
+      required: true,
+      enum: [
+        "PayPal",
+        "Stripe",
+        "Credit Card",
+        "Cash on Delivery",
+        "Bank Transfer",
+      ],
+    },
+    paymentResult: paymentResultSchema,
+    itemsPrice: {
+      type: Number,
+      required: true,
+      default: 0.0,
+    },
+    totalPrice: {
+      type: Number,
+      required: true,
+      default: 0.0,
+    },
+    isPaid: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    paidAt: {
+      type: Date,
+    },
+    isDelivered: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    deliveredAt: {
+      type: Date,
+    },
+    status: {
+      type: String,
+      enum: [
+        "Pending",
+        "Processing",
+        "Shipped",
+        "Delivered",
+        "Cancelled",
+        "Refunded",
+      ],
+      default: "Pending",
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+// Add virtual for formatted order number
+orderSchema.virtual("orderNumber").get(function () {
+  return `ORD-${this._id.toString().substring(0, 8).toUpperCase()}`;
+});
+
+// Add compound index to prevent potential duplicates
+orderSchema.index({ user: 1, createdAt: 1 }, { unique: false });
+
+export const Order = mongoose.model("Order", orderSchema);

@@ -20,7 +20,7 @@ const Sidebar = () => {
   const navItems = [
     // { icon: <Home size={20} />, label: "DashBoard" },
     { icon: <Users size={20} />, label: "Products" },
-    // { icon: <FileText size={20} />, label: "Orders" },
+    { icon: <FileText size={20} />, label: "Orders" },
   ];
   const navigate = useNavigate();
   return (
