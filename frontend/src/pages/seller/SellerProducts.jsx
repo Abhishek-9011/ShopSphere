@@ -40,14 +40,6 @@ function ProductTable() {
   };
 
   // Format price with currency
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    }).format(price / 100); // Assuming price is in cents
-  };
 
   if (loading) {
     return (
@@ -130,7 +122,7 @@ function ProductTable() {
                     Stock: {product.stock}
                   </div>
                   <div className="text-sm text-gray-500 md:hidden">
-                    {formatPrice(product.price)}
+                    {product.price}
                   </div>
                 </TableCell>
                 <TableCell>
@@ -151,7 +143,7 @@ function ProductTable() {
                   {product.stock}
                 </TableCell>
                 <TableCell className="text-right font-semibold text-green-600">
-                  {formatPrice(product.price)}
+                  ₹{product.price}
                 </TableCell>
                 <TableCell className="text-right space-x-2">
                   <Dialog>
@@ -209,7 +201,7 @@ function ProductTable() {
                                 Price<span className="text-red-500">*</span>
                               </label>
                               <div className="col-span-3 flex items-center">
-                                <span className="mr-2">$</span>
+                                <span className="mr-2">₹</span>
                                 <input
                                   id="price"
                                   name="price" // Add this
@@ -342,7 +334,7 @@ function ProductTable() {
                                 </p>
                                 <p>
                                   <span className="text-gray-500">Price:</span>{" "}
-                                  {formatPrice(product.price)}
+                                  ₹{product.price}
                                 </p>
                                 <p>
                                   <span className="text-gray-500">
@@ -374,12 +366,7 @@ function ProductTable() {
           <TableRow>
             <TableCell colSpan={3}>Total Inventory Value</TableCell>
             <TableCell colSpan={1} className="text-right">
-              {new Intl.NumberFormat("en-US", {
-                style: "currency",
-                currency: "USD",
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              }).format(totalValue / 100)}
+              {totalValue}
             </TableCell>
             <TableCell className="text-right">
               {products.length} items
@@ -472,7 +459,7 @@ const SellerProducts = () => {
                           Price<span className="text-red-500">*</span>
                         </label>
                         <div className="col-span-3 flex items-center">
-                          <span className="mr-2">$</span>
+                          <span className="mr-2">₹</span>
                           <input
                             id="price"
                             name="price"

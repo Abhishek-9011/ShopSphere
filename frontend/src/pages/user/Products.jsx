@@ -128,6 +128,7 @@ const Products = () => {
                 id={product._id} 
                 title={product.name}
                 image={product.images}
+                stock={product.stock}
                 description={product.description}
                 price={product.price}
               />

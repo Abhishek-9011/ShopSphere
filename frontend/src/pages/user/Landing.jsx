@@ -1,202 +1,82 @@
-import { ShoppingBag } from "lucide-react";
-import React, { useContext, useState } from "react";
+import { ShoppingBag, ArrowRight } from "lucide-react";
+import React, { useContext, useState, useEffect } from "react";
 import { useCart } from "../../context/CartContext";
 import { addItemToCart } from "@/services/cartApi";
 import UserContext from "@/context/UserContext";
-const LandingPageCard = ({ title, price, image }) => {
+import ProductContext from "@/context/ProductContext";
+const LandingPageCard = ({ product }) => {
   const { loading, refreshCart } = useCart();
+  const [isHovered, setIsHovered] = useState(false);
+  const user = useContext(UserContext);
+
   const handleAddToCart = async () => {
     try {
-      console.log("Sending to cart:", {
-        productId: id,
-        quantity: 1,
-      });
-
       await addItemToCart({
-        productId: id,
+        productId: product._id,
         quantity: 1,
       });
 
-      if (refreshCart) refreshCart(); // Optional: refresh context state
-      console.log("Product added to cart!");
+      if (refreshCart) refreshCart();
     } catch (error) {
       console.error("Failed to add to cart:", error);
     }
   };
-  const user = useContext(UserContext);
-  console.log(user?.user?.data);
-  
+
   return (
-    <div className="relative group overflow-hidden rounded-lg aspect-[3/4] w-full">
+    <div
+      className="relative group overflow-hidden rounded-xl aspect-[3/4] w-full"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <img
-        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-        src={image}
-        alt={title}
+        className={`w-full h-full object-cover transition-all duration-500 ${
+          isHovered ? "scale-105" : "scale-100"
+        }`}
+        src={product.images}
+        alt={product.name}
+        onError={(e) => {
+          e.target.src = "/placeholder-product.jpg";
+        }}
       />
       <button
         onClick={handleAddToCart}
-        className="absolute top-3 right-3 z-20 p-2 bg-white rounded-full shadow-md hover:bg-gray-100 transition-all duration-200"
+        className={`absolute top-3 right-3 z-20 p-2 bg-white rounded-full shadow-md transition-all duration-300 ${
+          isHovered ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+        }`}
       >
         <ShoppingBag className="w-4 h-4 text-gray-800" />
       </button>
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-      <div className="absolute bottom-0 left-0 right-0 p-4 text-white translate-y-5 group-hover:translate-y-0 transition-transform duration-300">
-        <h2 className="text-xl font-bold tracking-tight mb-1">{title}</h2>
-        <p className="text-lg font-medium">{price}</p>
+      <div
+        className={`absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent transition-opacity duration-300 ${
+          isHovered ? "opacity-100" : "opacity-0"
+        }`}
+      />
+      <div
+        className={`absolute bottom-0 left-0 right-0 p-4 text-white transition-all duration-300 ${
+          isHovered ? "translate-y-0" : "translate-y-10"
+        }`}
+      >
+        <h2 className="text-xl font-bold tracking-tight mb-1 line-clamp-1">
+          {product.name}
+        </h2>
+        <p className="text-lg font-medium">
+          ₹{(product.price / 100).toFixed(2)}
+        </p>
+        <button className="mt-2 flex items-center text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:underline">
+          View details <ArrowRight className="ml-1 w-4 h-4" />
+        </button>
       </div>
     </div>
   );
 };
 
-const Landing = () => {
-  // Sample product data
-  const trendingProducts = [
-    {
-      title: "Summer Linen Shirt",
-      price: "$49.99",
-      image: "/middle-right-1.jpg",
-    },
-    { title: "Canvas Sneakers", price: "$79.99", image: "/middle-right-1.jpg" },
-    { title: "Wide Brim Hat", price: "$34.99", image: "/middle-right-1.jpg" },
-    { title: "Chino Shorts", price: "$45.99", image: "/middle-right-1.jpg" },
-  ];
+const SectionHeader = ({ title, subtitle }) => (
+  <div className="mb-8 text-center">
+    <h2 className="text-3xl font-bold mb-2">{title}</h2>
+    {subtitle && <p className="text-gray-600 max-w-2xl mx-auto">{subtitle}</p>}
+  </div>
+);
 
-  const newArrivals = [
-    { title: "Silk Blend Tee", price: "$59.99", image: "/middle-right-1.jpg" },
-    { title: "Woven Sandals", price: "$89.99", image: "/middle-right-1.jpg" },
-    { title: "Crochet Bag", price: "$64.99", image: "/middle-right-1.jpg" },
-    { title: "Denim Jacket", price: "$99.99", image: "/middle-right-1.jpg" },
-  ];
-
-  const bestSellers = [
-    {
-      title: "Classic White Sneakers",
-      price: "$89.99",
-      image: "/middle-right-1.jpg",
-    },
-    {
-      title: "Oversized Sunglasses",
-      price: "$29.99",
-      image: "/middle-right-1.jpg",
-    },
-    { title: "Linen Pants", price: "$69.99", image: "/middle-right-1.jpg" },
-    { title: "Knit Cardigan", price: "$79.99", image: "/middle-right-1.jpg" },
-  ];
-
-  return (
-    <div className="max-w-screen mx-auto p-4">
-      {/* Image Grid */}
-      <div className="flex flex-col md:flex-row gap-4">
-        {/* Main Image */}
-        <div className="md:w-2/3">
-          <div className="h-[500px] w-full rounded-2xl overflow-hidden">
-            <img
-              src="/top-left.jpg"
-              alt="Main summer outfit"
-              className="w-full h-full object-cover"
-            />
-          </div>
-        </div>
-
-        {/* Side Images */}
-        <div className="md:w-1/3 flex flex-col gap-4">
-          <div className="h-[240px] w-full rounded-2xl overflow-hidden">
-            <img
-              src="/top-right-up.jpg"
-              alt="Summer outfit detail"
-              className="w-full h-full object-cover"
-            />
-          </div>
-          <div className="h-[240px] w-full rounded-2xl overflow-hidden">
-            <img
-              src="/top-right-down.jpg"
-              alt="Summer outfit accessory"
-              className="w-full h-full object-cover"
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Lower part */}
-      <div className="flex flex-col md:flex-row gap-4 mt-4">
-        <div className="md:w-1/3">
-          <h1 className="text-4xl font-bold">Casual Inspiration</h1>
-          <p className="mt-2 text-gray-600">
-            Our Favourite combination for casual outfit that can inspire you to
-            apply on your daily activity
-          </p>
-        </div>
-        <div className="md:w-1/3 h-[200px] rounded-2xl overflow-hidden">
-          <img
-            src="/middle-right-1.jpg"
-            className="w-full h-full object-cover"
-            alt="Casual outfit 1"
-          />
-        </div>
-        <div className="md:w-1/3 h-[200px] rounded-2xl overflow-hidden">
-          <img
-            src="/middle-right-2.jpg"
-            className="w-full h-full object-cover"
-            alt="Casual outfit 2"
-          />
-        </div>
-      </div>
-
-      <hr className="mt-8 mb-8 border-gray-200" />
-
-      {/* Product Sections */}
-      <div className="space-y-12 flex-wrap">
-        {/* Trending Now */}
-        <section>
-          <h2 className="text-2xl  font-bold mb-6">Trending Now</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {trendingProducts.map((product, index) => (
-              <LandingPageCard
-                key={`trending-${index}`}
-                title={product.title}
-                price={product.price}
-                image={product.image}
-              />
-            ))}
-          </div>
-        </section>
-
-        {/* New Arrivals */}
-        <section>
-          <h2 className="text-2xl font-bold mb-6">New Arrivals</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {newArrivals.map((product, index) => (
-              <LandingPageCard
-                key={`new-${index}`}
-                title={product.title}
-                price={product.price}
-                image={product.image}
-              />
-            ))}
-          </div>
-        </section>
-
-        {/* Best Sellers */}
-        <section>
-          <h2 className="text-2xl font-bold mb-6">Best Sellers</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {bestSellers.map((product, index) => (
-              <LandingPageCard
-                key={`best-${index}`}
-                title={product.title}
-                price={product.price}
-                image={product.image}
-              />
-            ))}
-          </div>
-        </section>
-        <section className="mb-16">
-          <Newsletter />
-        </section>
-      </div>
-    </div>
-  );
-};
 const Newsletter = () => {
   const [email, setEmail] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -210,7 +90,7 @@ const Newsletter = () => {
   };
 
   return (
-    <div className="bg-gray-100 text-white py-16 px-4 rounded-xl">
+    <div className="bg-gray-200 text-white py-16 px-4 rounded-xl">
       <div className="max-w-3xl mx-auto text-center">
         <h2 className="text-3xl text-black font-bold mb-2">
           Join Our Newsletter
@@ -236,7 +116,7 @@ const Newsletter = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Your email address"
-              className="flex-grow rounded-full px-6 py-3 bg-gray-300 text-white placeholder-black focus:outline-none focus:ring-2 focus:ring-white"
+              className="flex-grow rounded-full px-6 py-3 bg-gray-300 text-black placeholder-black focus:outline-none focus:ring-2 focus:ring-black"
               required
             />
             <button
@@ -247,6 +127,200 @@ const Newsletter = () => {
             </button>
           </form>
         )}
+      </div>
+    </div>
+  );
+};
+
+const Landing = () => {
+  const { products, loading: productsLoading } = useContext(ProductContext);
+  const [trendingProducts, setTrendingProducts] = useState([]);
+  const [newArrivals, setNewArrivals] = useState([]);
+  const [bestSellers, setBestSellers] = useState([]);
+
+  // Categorize products
+  useEffect(() => {
+    if (products && products.length > 0) {
+      // Shuffle products and pick random ones for each section
+      const shuffled = [...products].sort(() => 0.5 - Math.random());
+
+      // Get 6 products for each section (adjust as needed)
+      setTrendingProducts(shuffled.slice(0, 6));
+      setNewArrivals(
+        [...products]
+          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+          .slice(0, 6)
+      );
+      setBestSellers(
+        [...products]
+          .sort((a, b) => (b.rating || 0) - (a.rating || 0))
+          .slice(0, 6)
+      );
+    }
+  }, [products]);
+
+  if (productsLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-screen mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+      {/* Hero Section */}
+      <div className="flex flex-col md:flex-row gap-6 mb-12">
+        {/* Main Image */}
+        <div className="md:w-2/3 h-[500px] rounded-2xl overflow-hidden relative group">
+          <img
+            src="/top-left.jpg"
+            alt="Main summer outfit"
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/30 to-transparent flex items-center pl-12">
+            <div className="max-w-md">
+              <h1 className="text-4xl font-bold text-white mb-4">
+                Summer Collection 2023
+              </h1>
+              <p className="text-white/90 mb-6">
+                Discover our latest arrivals designed for comfort and style
+              </p>
+              <button className="bg-white text-gray-900 px-6 py-3 rounded-full font-medium hover:bg-gray-100 transition-colors shadow-lg">
+                Shop Now
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Side Images */}
+        <div className="md:w-1/3 flex flex-col gap-6">
+          <div className="h-[240px] w-full rounded-2xl overflow-hidden relative group">
+            <img
+              src="/top-right-up.jpg"
+              alt="Summer outfit detail"
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent flex items-end p-6">
+              <h2 className="text-xl font-bold text-white">New Accessories</h2>
+            </div>
+          </div>
+          <div className="h-[240px] w-full rounded-2xl overflow-hidden relative group">
+            <img
+              src="/top-right-down.jpg"
+              alt="Summer outfit accessory"
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent flex items-end p-6">
+              <h2 className="text-xl font-bold text-white">
+                Casual Essentials
+              </h2>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Inspiration Section */}
+      <div className="flex flex-col md:flex-row gap-8 my-16 items-center">
+        <div className="md:w-1/3">
+          <h1 className="text-4xl font-bold mb-4">Casual Inspiration</h1>
+          <p className="text-gray-600 mb-6">
+            Our favorite combinations for casual outfits that can inspire your
+            daily looks
+          </p>
+          <button className="flex items-center text-indigo-600 font-medium hover:underline">
+            Explore more looks <ArrowRight className="ml-2 w-4 h-4" />
+          </button>
+        </div>
+        <div className="md:w-2/3 grid grid-cols-2 gap-4">
+          <div className="h-[300px] rounded-2xl overflow-hidden group">
+            <img
+              src="/middle-right-1.jpg"
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              alt="Casual outfit 1"
+            />
+          </div>
+          <div className="h-[300px] rounded-2xl overflow-hidden group">
+            <img
+              src="/middle-right-2.jpg"
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              alt="Casual outfit 2"
+            />
+          </div>
+        </div>
+      </div>
+
+      <hr className="my-16 border-gray-200" />
+
+      {/* Product Sections */}
+      <div className="space-y-20">
+        {/* Trending Now */}
+        <section className="animate-fade-in">
+          <SectionHeader
+            title="Trending Now"
+            subtitle="Discover what everyone is loving this season"
+          />
+          {trendingProducts.length > 0 ? (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+              {trendingProducts.map((product) => (
+                <LandingPageCard
+                  key={`trending-${product._id}`}
+                  product={product}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12 text-gray-500">
+              No trending products found
+            </div>
+          )}
+        </section>
+
+        {/* New Arrivals */}
+        <section className="animate-fade-in">
+          <SectionHeader
+            title="New Arrivals"
+            subtitle="Fresh styles just added to our collection"
+          />
+          {newArrivals.length > 0 ? (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+              {newArrivals.map((product) => (
+                <LandingPageCard key={`new-${product._id}`} product={product} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12 text-gray-500">
+              No new arrivals found
+            </div>
+          )}
+        </section>
+
+        {/* Best Sellers */}
+        <section className="animate-fade-in">
+          <SectionHeader
+            title="Best Sellers"
+            subtitle="Our customer favorites that never go out of style"
+          />
+          {bestSellers.length > 0 ? (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+              {bestSellers.map((product) => (
+                <LandingPageCard
+                  key={`best-${product._id}`}
+                  product={product}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12 text-gray-500">
+              No best sellers found
+            </div>
+          )}
+        </section>
+
+        {/* Newsletter */}
+        <section className="my-20">
+          <Newsletter />
+        </section>
       </div>
     </div>
   );
