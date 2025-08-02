@@ -57,9 +57,9 @@ function App() {
                       <Route
                         path="products"
                         element={
-                          <UserProtectedRoute>
+                          // <UserProtectedRoute>
                             <Products />
-                          </UserProtectedRoute>
+                          // </UserProtectedRoute>
                         }
                       />
                       <Route
