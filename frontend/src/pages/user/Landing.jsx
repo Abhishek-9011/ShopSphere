@@ -189,7 +189,7 @@ const Landing = () => {
               </p>
               <button
                 onClick={() => {
-                  navigate("/signin");
+                  navigate("/products");
                 }}
                 className="bg-white text-gray-900 px-6 py-3 rounded-full font-medium hover:bg-gray-100 transition-colors shadow-lg"
               >

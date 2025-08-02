@@ -3,7 +3,6 @@ import {
   Home,
   LogOut,
   Menu,
-  School,
   ShoppingBag,
   ShoppingCart,
   User,
@@ -16,23 +15,16 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
-  SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Label } from "./ui/label";
-import { Input } from "./ui/input";
-import { Separator } from "@radix-ui/react-dropdown-menu";
 import { Link, useNavigate } from "react-router-dom";
 import CartContext from "@/context/CartContext";
 import { cn } from "@/lib/utils";
@@ -147,10 +139,16 @@ const MobileNavbar = () => {
     { name: "Cart", path: "/cart", icon: ShoppingBag },
   ];
 
-  const authLinks = localStorage.getItem('token')
+  const authLinks = localStorage.getItem("token")
     ? [
         { name: "Orders", path: "/orders", icon: ShoppingBag },
-        { name: "Logout", action: ()=>{localStorage.removeItem('token')}, icon: LogOut },
+        {
+          name: "Logout",
+          action: () => {
+            localStorage.removeItem("token");
+          },
+          icon: LogOut,
+        },
       ]
     : [
         { name: "Login", path: "/signin", icon: User },

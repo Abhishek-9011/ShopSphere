@@ -45,7 +45,7 @@ export const placeOrder = async (orderData) => {
 export const getSellerOrders = async () => {
   try {
     const response = await axios.get(
-      `http://localhost:3000/api/v1/order/seller`,
+      `${API_BASE_URL}order/seller`,
       {
         headers: {
           Authorization: localStorage.getItem("token"),
@@ -72,7 +72,7 @@ export const getSellerOrders = async () => {
 export const getUserOrders = async () => {
   try {
     const response = await axios.get(
-      `http://localhost:3000/api/v1/order/user`,
+      `${API_BASE_URL}order/user`,
       {
         headers: {
           Authorization: localStorage.getItem("token"),
