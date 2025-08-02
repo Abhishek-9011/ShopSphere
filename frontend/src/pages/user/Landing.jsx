@@ -4,6 +4,7 @@ import { useCart } from "../../context/CartContext";
 import { addItemToCart } from "@/services/cartApi";
 import UserContext from "@/context/UserContext";
 import ProductContext from "@/context/ProductContext";
+import { useNavigate } from "react-router-dom";
 const LandingPageCard = ({ product }) => {
   const { loading, refreshCart } = useCart();
   const [isHovered, setIsHovered] = useState(false);
@@ -137,7 +138,7 @@ const Landing = () => {
   const [trendingProducts, setTrendingProducts] = useState([]);
   const [newArrivals, setNewArrivals] = useState([]);
   const [bestSellers, setBestSellers] = useState([]);
-
+  const navigate = useNavigate();
   // Categorize products
   useEffect(() => {
     if (products && products.length > 0) {
@@ -186,7 +187,12 @@ const Landing = () => {
               <p className="text-white/90 mb-6">
                 Discover our latest arrivals designed for comfort and style
               </p>
-              <button className="bg-white text-gray-900 px-6 py-3 rounded-full font-medium hover:bg-gray-100 transition-colors shadow-lg">
+              <button
+                onClick={() => {
+                  navigate("/signin");
+                }}
+                className="bg-white text-gray-900 px-6 py-3 rounded-full font-medium hover:bg-gray-100 transition-colors shadow-lg"
+              >
                 Shop Now
               </button>
             </div>
@@ -228,7 +234,7 @@ const Landing = () => {
             Our favorite combinations for casual outfits that can inspire your
             daily looks
           </p>
-          <button className="flex items-center text-indigo-600 font-medium hover:underline">
+          <button onClick={()=>navigate('/products')} className="flex items-center text-blue-400 font-medium hover:underline">
             Explore more looks <ArrowRight className="ml-2 w-4 h-4" />
           </button>
         </div>

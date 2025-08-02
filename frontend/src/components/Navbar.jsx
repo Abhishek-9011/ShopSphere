@@ -1,5 +1,14 @@
-import { Globe, Menu, School, ShoppingBag } from "lucide-react";
-import React from "react";
+import {
+  Globe,
+  Home,
+  LogOut,
+  Menu,
+  School,
+  ShoppingBag,
+  ShoppingCart,
+  User,
+} from "lucide-react";
+import React, { useContext, useState } from "react";
 import { Button } from "./ui/button";
 import {
   DropdownMenu,
@@ -25,9 +34,16 @@ import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import { Link, useNavigate } from "react-router-dom";
+import CartContext from "@/context/CartContext";
+import { cn } from "@/lib/utils";
 const Navbar = () => {
   const token = localStorage.getItem("token");
   const user = token ? true : false;
+  const cart = useContext(CartContext);
+  const navLinks = [
+    { name: "Home", path: "/", icon: Home },
+    { name: "Products", path: "/products", icon: ShoppingCart },
+  ];
   const navigate = useNavigate();
   return (
     <div className="h-16 dark:bg-[#0A0A0A] bg-white border-b dark:border-b-gray-800 border-b-gray-200 top-0 left-0 right-0 duration-300 z-10">
@@ -40,17 +56,39 @@ const Navbar = () => {
             </h1>
           </Link>
         </div>
-        <div className="flex gap-4">
-          <Link to={"/products"}>
-          <p className=" text-xl"> 
-            All items
-          </p>
-          
-          </Link>
-        </div>
+        <nav className="hidden md:flex items-center gap-8">
+          {navLinks?.map((link) => (
+            <Link
+              key={link?.path}
+              to={link?.path}
+              className={cn(
+                "text-sm font-medium transition-colors hover:text-primary relative group",
+                location?.pathname === link?.path
+                  ? "text-primary"
+                  : "text-gray-600 dark:text-gray-300"
+              )}
+            >
+              {link.name}
+              <span
+                className={cn(
+                  "absolute left-0 top-full mt-1 w-0 h-0.5 bg-primary rounded-full transition-all duration-300",
+                  location?.pathname === link?.path
+                    ? "w-full"
+                    : "group-hover:w-full"
+                )}
+              />
+            </Link>
+          ))}
+        </nav>
         <div className="flex items-center gap-8">
-          <Link to={"/cart"}>
-            <ShoppingBag />
+          <Link
+            to="/cart"
+            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors relative"
+          >
+            <ShoppingBag size={20} />
+            <span className="absolute -top-1 -right-1 bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+              {cart.cartItems.length}
+            </span>
           </Link>
           {user ? (
             <DropdownMenu>
@@ -70,7 +108,7 @@ const Navbar = () => {
                     <span
                       onClick={() => {
                         localStorage.removeItem("token");
-                        navigate
+                        navigate;
                       }}
                     >
                       Log out
@@ -100,33 +138,85 @@ const Navbar = () => {
   );
 };
 const MobileNavbar = () => {
-  const role = "instructor";
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const navLinks = [
+    { name: "Home", path: "/", icon: Home },
+    { name: "Products", path: "/products", icon: ShoppingCart },
+    { name: "Cart", path: "/cart", icon: ShoppingBag },
+  ];
+
+  const authLinks = localStorage.getItem('token')
+    ? [
+        { name: "Orders", path: "/orders", icon: ShoppingBag },
+        { name: "Logout", action: ()=>{localStorage.removeItem('token')}, icon: LogOut },
+      ]
+    : [
+        { name: "Login", path: "/signin", icon: User },
+        { name: "Sign Up", path: "/signup", icon: User },
+      ];
+
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <Button
           size="icon"
-          className="rounded-full bg-gray-200 hover:bg-gray-200"
-          variant="outline"
+          variant="ghost"
+          className="rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-transform hover:scale-110"
         >
-          <Menu />
+          <Menu size={24} />
         </Button>
       </SheetTrigger>
-      <SheetContent className="flex flex-col">
-        <SheetHeader className="flex flex-row items-center justify-between mt-4">
-          <SheetTitle>ShopSphere</SheetTitle>
+      <SheetContent side="right" className="w-[300px]">
+        <SheetHeader>
+          <SheetTitle className="text-left flex items-center gap-2">
+            <Globe size={24} className="text-primary" />
+            ShopSphere
+          </SheetTitle>
         </SheetHeader>
-        <Separator className="mr-4" />
-        <nav className="flex flex-col space-y-4 ">
-          <span>Edit Profile</span>
-          <span>Log out</span>
-        </nav>
-        {role === "instructor" && (
-          <SheetFooter>
-            <Button type="submit">Dashboard</Button>
-            <SheetClose asChild></SheetClose>
-          </SheetFooter>
-        )}
+
+        <div className="flex flex-col h-full py-6">
+          <div className="space-y-1">
+            {navLinks.map((link) => (
+              <Button
+                key={link.path}
+                variant="ghost"
+                className={cn(
+                  "w-full justify-start transition-colors",
+                  location.pathname === link.path
+                    ? "bg-gray-100 dark:bg-gray-800"
+                    : ""
+                )}
+                onClick={() => {
+                  navigate(link.path);
+                  setOpen(false);
+                }}
+              >
+                <link.icon className="mr-2 h-4 w-4" />
+                {link.name}
+              </Button>
+            ))}
+          </div>
+
+          <div className="mt-auto space-y-2">
+            <div className="h-[1px] bg-gray-200 dark:bg-gray-800 my-4" />
+            {authLinks.map((link) => (
+              <Button
+                key={link.name}
+                variant="ghost"
+                className="w-full justify-start transition-colors"
+                onClick={() => {
+                  link.path ? navigate(link.path) : link.action();
+                  setOpen(false);
+                }}
+              >
+                <link.icon className="mr-2 h-4 w-4" />
+                {link.name}
+              </Button>
+            ))}
+          </div>
+        </div>
       </SheetContent>
     </Sheet>
   );
