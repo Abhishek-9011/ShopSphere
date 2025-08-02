@@ -5,6 +5,7 @@ import { addItemToCart } from "@/services/cartApi";
 import UserContext from "@/context/UserContext";
 import ProductContext from "@/context/ProductContext";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 const LandingPageCard = ({ product }) => {
   const { loading, refreshCart } = useCart();
   const [isHovered, setIsHovered] = useState(false);
@@ -18,8 +19,10 @@ const LandingPageCard = ({ product }) => {
       });
 
       if (refreshCart) refreshCart();
+      toast.success("Added successfully to cart");
     } catch (error) {
       console.error("Failed to add to cart:", error);
+      toast("Failed to add to cart");
     }
   };
 
@@ -234,7 +237,10 @@ const Landing = () => {
             Our favorite combinations for casual outfits that can inspire your
             daily looks
           </p>
-          <button onClick={()=>navigate('/products')} className="flex items-center text-blue-400 font-medium hover:underline">
+          <button
+            onClick={() => navigate("/products")}
+            className="flex items-center text-blue-400 font-medium hover:underline"
+          >
             Explore more looks <ArrowRight className="ml-2 w-4 h-4" />
           </button>
         </div>

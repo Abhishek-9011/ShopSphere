@@ -69,10 +69,10 @@ const ProductCard = ({
       });
 
       if (refreshCart) refreshCart(); // Optional: refresh context state
-      toast.success("Product Added to Cart")
+      toast.success("Product Added to Cart");
       console.log("Product added to cart!");
     } catch (error) {
-      toast.success("Product Failed to Add Cart")
+      toast("Product Failed to Add Cart");
       console.error("Failed to add to cart:", error);
     }
   };

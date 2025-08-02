@@ -94,7 +94,7 @@ const Signup = () => {
         navigate("/signin"); // Navigate on success
       } catch (error) {
         console.error("Signup error:", error);
-        toast.error("Signup Fail")
+        toast("Signup Fail")
         setApiError(
           error.response?.data?.message || "Signup failed. Please try again."
         );

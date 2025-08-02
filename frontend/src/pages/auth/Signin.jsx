@@ -55,7 +55,7 @@ const Signin = () => {
         toast.success("Signin SuccessFull");
         navigate(credentials.role === "seller" ? "/seller/products" : "/");
       } catch (error) {
-        toast.fail("Signin Failed");
+        toast("Signin Failed");
         setApiError(error.message);
       } finally {
         setIsSubmitting(false);
