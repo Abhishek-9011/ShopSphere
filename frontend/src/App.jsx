@@ -17,9 +17,10 @@ import SellerPageWarning from "./pages/seller/SellerPageWarning";
 import SellerProductContextProvider from "./context/SellerProductContextProvider";
 import UserProtectedRoute from "./pages/auth/UserProtectedRoute";
 import CartContextProvider from "./context/CartContextProvider";
-import Order from "./pages/user/Order";
+import Order from "./pages/user/UserOrder";
 import UserContextProvider from "./context/UserContextProvider";
 import SellerTestOrders from "./pages/Test/TestOrder";
+import UserOrder from "./pages/user/UserOrder";
 
 function App() {
   return (
@@ -52,18 +53,18 @@ function App() {
                         }
                       />
                       <Route
-                        path="order"
-                        element={
-                          <UserProtectedRoute>
-                            <Order />
-                          </UserProtectedRoute>
-                        }
-                      />
-                      <Route
                         path="products"
                         element={
                           <UserProtectedRoute>
                             <Products />
+                          </UserProtectedRoute>
+                        }
+                      />
+                       <Route
+                        path="orders"
+                        element={
+                          <UserProtectedRoute>
+                            <UserOrder />
                           </UserProtectedRoute>
                         }
                       />

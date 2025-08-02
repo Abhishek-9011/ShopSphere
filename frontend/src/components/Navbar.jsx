@@ -63,9 +63,9 @@ const Navbar = () => {
               <DropdownMenuContent className="w-56" align="start">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuGroup>
-                  {/* <DropdownMenuItem>
-                    <Link to={"/profile"}>Edit Profile</Link>
-                  </DropdownMenuItem> */}
+                  <DropdownMenuItem>
+                    <Link to={"/orders"}>Orders</Link>
+                  </DropdownMenuItem>
                   <DropdownMenuItem>
                     <span
                       onClick={() => {

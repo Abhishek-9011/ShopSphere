@@ -68,3 +68,30 @@ export const getSellerOrders = async () => {
     };
   }
 };
+
+export const getUserOrders = async () => {
+  try {
+    const response = await axios.get(
+      `http://localhost:3000/api/v1/order/user`,
+      {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    console.log(response);
+
+    return {
+      success: true,
+      data: response.data,
+    };
+  } catch (error) {
+    console.error("Error fetching seller orders:", error);
+    return {
+      success: false,
+      message: error.response?.data?.message || "Failed to fetch seller orders",
+      error: error.response?.data?.error || error.message,
+    };
+  }
+};
