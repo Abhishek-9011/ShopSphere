@@ -21,6 +21,8 @@ import Order from "./pages/user/UserOrder";
 import UserContextProvider from "./context/UserContextProvider";
 import SellerTestOrders from "./pages/Test/TestOrder";
 import UserOrder from "./pages/user/UserOrder";
+import SellerProductContext from "./context/SellerProductContext";
+import SellerProtectedRoute from "./pages/auth/SellerProtectedRoute";
 
 function App() {
   return (
@@ -60,7 +62,7 @@ function App() {
                           </UserProtectedRoute>
                         }
                       />
-                       <Route
+                      <Route
                         path="orders"
                         element={
                           <UserProtectedRoute>
@@ -81,21 +83,44 @@ function App() {
                 element={
                   <SellerProductContextProvider>
                     <Routes>
-                      <Route path="products" element={<SellerProducts />} />
-                      <Route path="dashboard" element={<Dashboard />} />
-                      <Route path="orders" element={<SellerOrders />} />
-                      <Route path="test/orders" element={<SellerTestOrders />} />
+                      <Route
+                        path="products"
+                        element={
+                          <SellerProtectedRoute>
+                            <SellerProducts />
+                          </SellerProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="dashboard"
+                        element={
+                          <SellerProtectedRoute>
+                            <Dashboard />
+                          </SellerProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="orders"
+                        element={
+                          <SellerProtectedRoute>
+                            <SellerOrders />
+                          </SellerProtectedRoute>
+                        }
+                      />
                     </Routes>
                   </SellerProductContextProvider>
                 }
               />
-                <Route path="sidebar" element={<Sidebar />} />
+              <Route path="sidebar" element={<Sidebar />} />
 
               {/* Auth & Restriction Routes */}
               <Route path="/signup" element={<Signup />} />
               <Route path="/signin" element={<Signin />} />
               <Route path="/restricted/user" element={<UserPageWarning />} />
-              <Route path="/restricted/seller" element={<SellerPageWarning />} />
+              <Route
+                path="/restricted/seller"
+                element={<SellerPageWarning />}
+              />
             </Routes>
           </BrowserRouter>
         </ProductContextProvider>
