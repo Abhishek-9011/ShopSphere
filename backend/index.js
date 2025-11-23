@@ -9,7 +9,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 connectDb();
-app.use("/api/v1/user", userRouter);
+app.use("/  api/v1/user", userRouter);
 app.use("/api/v1/products", productRouter);
 app.use("/api/v1/cart", cartRouter);
 app.use("/api/v1/order", orderRouter);
