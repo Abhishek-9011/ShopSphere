@@ -74,7 +74,7 @@ Start the server
 
 ## Contact  
 
-For inquiries or support related to **HealthyAI**, please reach out via:  
+For inquiries or support related to **Shopsphere**, please reach out via:  
 
 - [💼 LinkedIn](https://www.linkedin.com/in/abhishek-9011-singh/)  
 
